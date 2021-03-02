@@ -22,7 +22,7 @@ import (
     "github.com/dgraph-io/dgo/v2/protos/api"
     "google.golang.org/grpc"
 
-	//"github.com/kevind13/backend/creacion_datos"
+	"github.com/kevind13/backend/creacion_datos"
 	"github.com/kevind13/backend/info_dgraph"
 
 
@@ -54,17 +54,17 @@ func main() {
 
     // Generacion del json de compradores
 	fmt.Println("Compradores")
-	//creacion_datos.ArchivoCompradores(currentTime)
+	creacion_datos.ArchivoCompradores(currentTime)
 	
 	// Generacion de csv de productos
 	fmt.Println("Productos")
-	//creacion_datos.ArchivoProductos(currentTime)
+	creacion_datos.ArchivoProductos(currentTime)
 	
 	// Generacion de csv de transacciones
 	fmt.Println("Transacciones")
-	//creacion_datos.ArchivoTransacciones(currentTime)
+	creacion_datos.ArchivoTransacciones(currentTime)
 
-	//dicCompradores := make(map[string]string)
+
 	dicCompradores, dicTransacciones,dicProductos := info_dgraph.LlenarDGraph()
 		
 

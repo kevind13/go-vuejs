@@ -17,7 +17,7 @@
           <v-card-text class="display-1 text-center">
             <v-text-field @change="search(comprador)" class="display-1 text-center" color="dark "
                         label="Buscar comprador por ID" v-model="comprador">
-                        <!-- TODO: Enviar a ruta comprador-->
+                        
             </v-text-field>
           </v-card-text>
         </v-card>
@@ -34,8 +34,6 @@
             :min="minimo"
             :max="maximo"
             >
-            <!-- <v-btn @click="menu = false" color="secondary" text>CANCELAR</v-btn> -->
-            <!-- <v-btn @click="$refs.menu.save(fecha)" color="secondary" text>OK</v-btn> -->
           </v-date-picker>
         </v-card>
       </v-flex>

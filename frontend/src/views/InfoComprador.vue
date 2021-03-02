@@ -15,7 +15,7 @@
         <v-flex xs10 >
           <v-card color="primary" dark>
             <v-card-text class="display-1 text-center">
-                Informacion del comprador
+                Información del comprador
             </v-card-text>
           </v-card>
         </v-flex>
@@ -154,9 +154,8 @@
                     <div text-center>IP: {{ buyer.ip }}</div>
                     <div text-center>Device: {{ buyer.device }}</div>
                     <div>
-                        <span :key="product.uid" v-for="product in buyer.tiene"
-                                  v-text="product.name +', '"></span>
-                        <span>End of transaction.</span>
+                        <span :key="product.uid" v-for="product in buyer.tiene.slice(0,buyer.tiene.length)"
+                                  v-text="product.name +', '"></span> <!--un slice por si se quiere acotar el numero de productos-->
                     </div>
                 </v-card-text>
                 </v-card>
