@@ -71,6 +71,8 @@ func main() {
 	r := chi.NewRouter()
 
 	r.Get("/load/{day}", func(w http.ResponseWriter, r *http.Request) {
+		//w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Access-Control-Allow-Origin", "*")
 
 		fmt.Printf("Dia actual en unix format: %v \n",currentTime)
 
@@ -88,8 +90,9 @@ func main() {
 
 		//dicCompradores := make(map[string]string)
 		//dicCompradores, dicTransacciones,dicProductos := info_dgraph.LlenarDGraph()
+		time.Sleep(3 * time.Second)
 		
-		response := "Datos del dia"+chi.URLParam(r, "id")+"cargados en DGraph"
+		response := "Datos del dia "+chi.URLParam(r, "day")+"cargados en DGraph"
 		w.Write([]byte(response))
 	})
 	
