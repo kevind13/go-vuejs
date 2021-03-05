@@ -202,9 +202,9 @@ func LlenarDGraph() (map[string]string, map[string]string,map[string]string){
 			//fmt.Println("Breaking out of loop")
             //break // break here
 		}
-		fmt.Println("4")
+
 		txn2.Commit(ctx)
-		fmt.Println("5")
+
 	}
 
 
@@ -272,7 +272,7 @@ func LlenarDGraph() (map[string]string, map[string]string,map[string]string){
 			}
 		}
 
-		rdfs.Reset()
+	
 
 		
 		fmt.Fprintf(&rdfs, "<%v> <hace> <%v> .\n", dicCompradores[line[1]], dicTransacciones[line[0]])
@@ -289,10 +289,10 @@ func LlenarDGraph() (map[string]string, map[string]string,map[string]string){
 		if i%1000 == 0{
 			fmt.Printf("%v Transacciones agregadas.\n",i)
 			//fmt.Println("Breaking out of loop")
-            break // break here
+            //break // break here
 		}
 		txn2.Commit(ctx)
-		rdfs.Reset()
+
 	}
 	
 
@@ -303,7 +303,6 @@ func LlenarDGraph() (map[string]string, map[string]string,map[string]string){
 	}
 	
 
-	ctx = nil
 
 	return dicCompradores, dicTransacciones, dicProductos
 }
