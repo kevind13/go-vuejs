@@ -137,7 +137,7 @@ func LlenarDGraph() (map[string]string, map[string]string,map[string]string){
 		mu := &api.Mutation{
 			SetJson: pb,
 		}
-		
+
 		res, err := txn1.Mutate(ctx, mu)
     	if err != nil {
 			log.Fatal("failed to mutate ", err)
@@ -146,9 +146,8 @@ func LlenarDGraph() (map[string]string, map[string]string,map[string]string){
 	}
 	fmt.Printf("Compradores agregados\n")
 
-	
 	txn1.Commit(ctx)
-	
+
 
 	
     
@@ -165,7 +164,7 @@ func LlenarDGraph() (map[string]string, map[string]string,map[string]string){
     if err != nil {
         fmt.Println(err)
     }    	
-	fmt.Println("Se cerro el csv de productos.")
+
 	
 	for i, line := range csvProductosLines {
 		//data := "'" + line[0] + "'" + "," + "'" + line[1] + "'" + "," + "'" + line[2] + "'" + "," + "'" + line[3] + "'"
@@ -202,9 +201,7 @@ func LlenarDGraph() (map[string]string, map[string]string,map[string]string){
 			//fmt.Println("Breaking out of loop")
             //break // break here
 		}
-		fmt.Println("4")
 		txn2.Commit(ctx)
-		fmt.Println("5")
 	}
 
 
@@ -214,7 +211,7 @@ func LlenarDGraph() (map[string]string, map[string]string,map[string]string){
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Println("Se abrio el csv de transacciones")
+	fmt.Println("Successfully Opened CSV file")
 	defer csvTransacciones.Close()
 	
     csvTransaccionesLines, err := csv.NewReader(csvTransacciones).ReadAll()
@@ -253,7 +250,7 @@ func LlenarDGraph() (map[string]string, map[string]string,map[string]string){
 		}
 
 		dicTransacciones[line[0]] = res2.Uids[line[0]]
-		//fmt.Println(line[0], res2.Uids[line[0]])
+
 		var rdfs bytes.Buffer
 
 		arrayProductsString := line[4]
@@ -272,8 +269,6 @@ func LlenarDGraph() (map[string]string, map[string]string,map[string]string){
 			}
 		}
 
-		rdfs.Reset()
-
 		
 		fmt.Fprintf(&rdfs, "<%v> <hace> <%v> .\n", dicCompradores[line[1]], dicTransacciones[line[0]])
 
@@ -289,13 +284,11 @@ func LlenarDGraph() (map[string]string, map[string]string,map[string]string){
 		if i%1000 == 0{
 			fmt.Printf("%v Transacciones agregadas.\n",i)
 			//fmt.Println("Breaking out of loop")
-            break // break here
+            //break // break here
 		}
 		txn2.Commit(ctx)
-		rdfs.Reset()
 	}
 	
-
 	if err != nil {
 		fmt.Println(err.Error())
 	} else {
@@ -303,7 +296,7 @@ func LlenarDGraph() (map[string]string, map[string]string,map[string]string){
 	}
 	
 
-	ctx = nil
+
 
 	return dicCompradores, dicTransacciones, dicProductos
 }

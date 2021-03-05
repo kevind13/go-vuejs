@@ -29,17 +29,25 @@ import (
 	"github.com/go-chi/chi"
 )
 
-var dicCompradores map[string]string
-var dicTransacciones map[string]string
-var dicProductos map[string]string
-var currentTime string 
 
+func main() {
 
-func init() { 
-	dicCompradores,dicTransacciones,dicProductos = InitApp()
-}
+	ctx := context.TODO()
+	conn, err := grpc.Dial("localhost:9080", grpc.WithInsecure())
+    if err != nil {
+		log.Fatal("failed to dial ", err)
+    }
+    defer conn.Close()
 
-func InitApp() (map[string]string,map[string]string,map[string]string){
+    dgraphClient := dgo.NewDgraphClient(api.NewDgraphClient(conn))
+
+    
+    
+	// Borrar todo para hacer las pruebas
+	op := &api.Operation{DropAll: true}
+	if err := dgraphClient.Alter(ctx, op); err != nil {
+		log.Fatal(err)
+	}
 
 	currentTime := strconv.FormatInt(time.Now().Unix(), 10)
 	fmt.Printf("Dia actual en unix format: %v \n",currentTime)
@@ -58,28 +66,6 @@ func InitApp() (map[string]string,map[string]string,map[string]string){
 
 
 	dicCompradores, dicTransacciones,dicProductos := info_dgraph.LlenarDGraph()
-    return dicCompradores, dicTransacciones,dicProductos
-
-}
-
-func main() {
-
-	ctx := context.TODO()
-	conn, err := grpc.Dial("localhost:9080", grpc.WithInsecure())
-    if err != nil {
-		log.Fatal("failed to dial ", err)
-    }
-    defer conn.Close()
-
-    dgraphClient := dgo.NewDgraphClient(api.NewDgraphClient(conn))
-
-	// Borrar todo para hacer las pruebas
-	op := &api.Operation{DropAll: true}
-	if err := dgraphClient.Alter(ctx, op); err != nil {
-		log.Fatal(err)
-	}
-
-	
 		
 
 	r := chi.NewRouter()
@@ -88,37 +74,26 @@ func main() {
 		//w.Header().Set("Content-Type", "application/json")
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 
-		// Borrar todo para hacer las pruebas
-		ctx := context.TODO()
-		op := &api.Operation{DropAll: true}
-		if err := dgraphClient.Alter(ctx, op); err != nil {
-			log.Fatal(err)
-		}
-
-		t, _ := time.Parse("2006-01-02",chi.URLParam(r, "day"))
-		currentTime := strconv.FormatInt(t.Unix(), 10)
-		
-		fmt.Printf("Dia en unix format: %v \n",currentTime)
+		fmt.Printf("Dia actual en unix format: %v \n",currentTime)
 
     	// Generacion del json de compradores
 		fmt.Println("Compradores")
-		creacion_datos.ArchivoCompradores(currentTime)
+		//creacion_datos.ArchivoCompradores(chi.URLParam(r, "id"))
 
 		// Generacion de csv de productos
 		fmt.Println("Productos")
-		creacion_datos.ArchivoProductos(currentTime)
+		//creacion_datos.ArchivoProductos(cchi.URLParam(r, "id"))
 	
 		// Generacion de csv de transacciones
 		fmt.Println("Transacciones")
-		creacion_datos.ArchivoTransacciones(currentTime)
+		//creacion_datos.ArchivoTransacciones(chi.URLParam(r, "id"))
 
 		//dicCompradores := make(map[string]string)
-		dicCompradores, dicTransacciones,dicProductos := info_dgraph.LlenarDGraph()
-		fmt.Printf("%v%v%v\n", dicTransacciones[""],dicCompradores[""],dicProductos[""])
-
+		//dicCompradores, dicTransacciones,dicProductos := info_dgraph.LlenarDGraph()
+		time.Sleep(3 * time.Second)
+		
 		response := "Datos del dia "+chi.URLParam(r, "day")+"cargados en DGraph"
 		w.Write([]byte(response))
-		
 	})
 	
 
@@ -266,7 +241,7 @@ func main() {
 		  	}
 		}`
 	*/
-	
+	fmt.Printf("%v%v%v\n", dicTransacciones[""],dicCompradores[""],dicProductos[""])
 
 
 	// Server
