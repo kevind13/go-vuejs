@@ -9,7 +9,6 @@ export default new Vuetify({
         customProperties: true,
       },
     themes: {
-      //TODO: Cambiar colores 
       light: {
         primary: '#263238',
         secondary: '#455A64',
