@@ -143,6 +143,7 @@ func LlenarDGraph() (map[string]string, map[string]string,map[string]string){
 			log.Fatal("failed to mutate ", err)
 		}
 		dicCompradores[buyers.Buyers[i].ID] = res.Uids[buyers.Buyers[i].ID]
+		
 	}
 	fmt.Printf("Compradores agregados\n")
 
@@ -275,6 +276,7 @@ func LlenarDGraph() (map[string]string, map[string]string,map[string]string){
 		muRelations := &api.Mutation{
 			SetNquads: rdfs.Bytes(),
 		}
+		rdfs.Reset()
 
 		_, errr := txn2.Mutate(ctx, muRelations)
     	if errr != nil {
